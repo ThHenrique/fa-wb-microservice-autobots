@@ -63,6 +63,7 @@ public class ClienteControle {
 		if (cliente.getId() == null) {
 			repositorio.save(cliente);
 			status = HttpStatus.CREATED;
+			return new ResponseEntity<>(status);
 		}
 		return new ResponseEntity<>(status);
 

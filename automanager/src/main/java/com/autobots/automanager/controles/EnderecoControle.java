@@ -1,7 +1,6 @@
 package com.autobots.automanager.controles;
 
 import java.util.List;
-import java.util.Optional;
 
 import com.autobots.automanager.entidades.Cliente;
 import com.autobots.automanager.entidades.Endereco;
@@ -25,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/endereco")
 public class EnderecoControle {
-  @Autowired // não precisa colocar = new Nome da classe
+  @Autowired
   private EnderecoRepositorio repositorio;
   @Autowired
   private AdicionadorLinkEndereco adicionadorLink;
@@ -68,19 +67,40 @@ public class EnderecoControle {
 
   }
 
-  @PutMapping("/cadastro")
-  public void cadastrarCliente(@RequestBody Cliente cliente) {
-    List<Cliente> clientes = repositorioCliente.findAll();
-    Cliente selecionado = selecionadorCliente.selecionar(clientes, cliente.getId());
-    selecionado.setEndereco(cliente.getEndereco());
-    repositorioCliente.save(selecionado);
+  @PutMapping("/cadastro/{clienteId}")
+  public ResponseEntity<Endereco> cadastrarEndereco(@PathVariable long clienteId, @RequestBody Endereco endereco) {
+    HttpStatus status = HttpStatus.CONFLICT;
+
+    Cliente cliente = repositorioCliente.getById(clienteId);
+    if (cliente != null) {
+      cliente.setEndereco(endereco);
+      repositorioCliente.save(cliente);
+      status = HttpStatus.CREATED;
+    } else {
+      status = HttpStatus.BAD_REQUEST;
+    }
+
+    return new ResponseEntity<>(status);
   }
 
-  @DeleteMapping("/excluir/{id}")
-  public void deletarEndereco(@PathVariable long id) {
+  @DeleteMapping("/excluir/{clienteId}")
+  public ResponseEntity<Endereco> deletarEndereco(@PathVariable long clienteId) {
+    HttpStatus status = HttpStatus.BAD_REQUEST;
+
     List<Cliente> clientes = repositorioCliente.findAll();
-    Cliente selecionado = selecionadorCliente.selecionar(clientes, id);
-    selecionado.setEndereco(null);
-    repositorioCliente.save(selecionado);
+    Cliente selecionado = selecionadorCliente.selecionar(clientes, clienteId);
+
+    if (selecionado != null) {
+      Endereco endereco = selecionado.getEndereco();
+
+      if (endereco != null) {
+        selecionado.setEndereco(null);
+        repositorioCliente.save(selecionado);
+        status = HttpStatus.OK;
+      } else {
+        status = HttpStatus.NOT_FOUND;
+      }
+    }
+    return new ResponseEntity<>(status);
   }
 }
