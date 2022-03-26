@@ -22,13 +22,10 @@ public class Telefone extends RepresentationModel<Telefone> {
 	@Id()
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
-	// @ManyToOne
-	// @JoinColumn(name = "cliente_id")
-	// private Cliente cliente;
-
 	@Column
 	private String ddd;
 	@Column
 	private String numero;
+	@Column
+	private Long clienteId;
 }

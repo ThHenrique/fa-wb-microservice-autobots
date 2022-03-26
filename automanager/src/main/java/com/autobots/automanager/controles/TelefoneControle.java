@@ -5,6 +5,7 @@ import java.util.List;
 import com.autobots.automanager.entidades.Cliente;
 import com.autobots.automanager.entidades.Telefone;
 import com.autobots.automanager.modelos.cliente.ClienteSelecionador;
+import com.autobots.automanager.modelos.telefone.AdicionadorLinkTelefone;
 import com.autobots.automanager.modelos.telefone.TelefoneAtualizador;
 import com.autobots.automanager.modelos.telefone.TelefoneSelecionador;
 import com.autobots.automanager.repositorios.ClienteRepositorio;
@@ -32,6 +33,9 @@ public class TelefoneControle {
   @Autowired
   private TelefoneSelecionador selecionadorTelefone;
 
+  @Autowired
+  private AdicionadorLinkTelefone adicionadorLink;
+
   @GetMapping("/{clienteId}")
   public ResponseEntity<?> obterTelefones(@PathVariable long clienteId) {
     HttpStatus status = HttpStatus.NOT_FOUND;
@@ -42,6 +46,8 @@ public class TelefoneControle {
 
     if (telefones.size() > 0) {
       status = HttpStatus.FOUND;
+      adicionadorLink.adicionarLink(telefones);
+
       return new ResponseEntity<List<Telefone>>(telefones, status);
     }
     return new ResponseEntity<>(status);
@@ -58,6 +64,8 @@ public class TelefoneControle {
 
     if (telefoneEncontrado != null) {
       status = HttpStatus.FOUND;
+      adicionadorLink.adicionarLink(telefoneEncontrado);
+
       return new ResponseEntity<Telefone>(telefoneEncontrado, status);
     }
     return new ResponseEntity<>(status);

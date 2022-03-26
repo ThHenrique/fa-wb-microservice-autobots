@@ -7,6 +7,8 @@ import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.stereotype.Component;
 
 import com.autobots.automanager.controles.ClienteControle;
+import com.autobots.automanager.controles.EnderecoControle;
+import com.autobots.automanager.controles.TelefoneControle;
 import com.autobots.automanager.entidades.Cliente;
 import com.autobots.automanager.modelos.AdicionadorLink;
 
@@ -33,6 +35,21 @@ public class AdicionadorLinkCliente implements AdicionadorLink<Cliente> {
 						.methodOn(ClienteControle.class)
 						.obterClientes())
 				.withRel("clientes");
+
+		Link linkTelefone = WebMvcLinkBuilder
+				.linkTo(WebMvcLinkBuilder
+						.methodOn(TelefoneControle.class)
+						.obterTelefones(objeto.getId()))
+				.withRel("telefones");
+
+		Link linkEndereco = WebMvcLinkBuilder
+				.linkTo(WebMvcLinkBuilder
+						.methodOn(EnderecoControle.class)
+						.obterEndereco(objeto.getEndereco().getId()))
+				.withRel("endereco");
+
 		objeto.add(linkProprio);
+		objeto.add(linkTelefone);
+		objeto.add(linkEndereco);
 	}
 }

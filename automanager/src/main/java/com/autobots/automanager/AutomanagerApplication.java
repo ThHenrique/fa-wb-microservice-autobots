@@ -49,13 +49,16 @@ public class AutomanagerApplication {
 			endereco.setInformacoesAdicionais("Hotel Copacabana palace");
 			cliente.setEndereco(endereco);
 
+			repositorio.save(cliente);
+
 			Telefone telefone = new Telefone();
+			telefone.setClienteId(cliente.getId());
 			telefone.setDdd("21");
 			telefone.setNumero("981234576");
-			// telefone.setCliente(cliente);
 			cliente.getTelefones().add(telefone);
 
 			repositorio.save(cliente);
+
 		}
 	}
 }

@@ -15,26 +15,26 @@ public class AdicionadorLinkTelefone implements AdicionadorLink<Telefone> {
 
 	@Override
 	public void adicionarLink(List<Telefone> lista) {
-		// for (Telefone telefone : lista) {
-		// long id = telefone.getId();
-		// Link linkProprio = WebMvcLinkBuilder.linkTo(
-		// WebMvcLinkBuilder
-		// .methodOn(TelefoneControle.class)
-		// .obterTelefone(telefone.getCliente().getId(), id))
-		// .withSelfRel();
-		// telefone.add(linkProprio);
-		// }
+		for (Telefone telefone : lista) {
+			long id = telefone.getId();
+			Link linkProprio = WebMvcLinkBuilder.linkTo(
+					WebMvcLinkBuilder
+							.methodOn(TelefoneControle.class)
+							.obterTelefone(telefone.getClienteId(), id))
+					.withSelfRel();
+			telefone.add(linkProprio);
+		}
 	}
 
 	@Override
 	public void adicionarLink(Telefone telefone) {
-		// Link linkProprio = WebMvcLinkBuilder
-		// .linkTo(
-		// WebMvcLinkBuilder
-		// .methodOn(TelefoneControle.class)
-		// .obterTelefones(telefone.getCliente().getId()))
-		// .withRel("telefones");
+		Link linkProprio = WebMvcLinkBuilder
+				.linkTo(
+						WebMvcLinkBuilder
+								.methodOn(TelefoneControle.class)
+								.obterTelefones(telefone.getClienteId()))
+				.withRel("telefones");
 
-		// telefone.add(linkProprio);
+		telefone.add(linkProprio);
 	}
 }
