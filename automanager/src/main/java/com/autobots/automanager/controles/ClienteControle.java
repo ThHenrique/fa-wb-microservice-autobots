@@ -15,10 +15,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.autobots.automanager.entidades.Cliente;
+import com.autobots.automanager.entidades.Veiculo;
 import com.autobots.automanager.modelos.cliente.AdicionadorLinkCliente;
 import com.autobots.automanager.modelos.cliente.ClienteAtualizador;
 import com.autobots.automanager.modelos.cliente.ClienteSelecionador;
 import com.autobots.automanager.repositorios.ClienteRepositorio;
+import com.autobots.automanager.servico.ClienteServico;
 
 @RestController
 @RequestMapping("/cliente")
@@ -29,6 +31,9 @@ public class ClienteControle {
 	private ClienteSelecionador selecionador;
 	@Autowired
 	private AdicionadorLinkCliente adicionadorLink;
+
+	@Autowired
+	private ClienteServico servicoCliente;
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Cliente> obterCliente(@PathVariable long id) {
@@ -44,31 +49,6 @@ public class ClienteControle {
 		}
 	}
 
-	@GetMapping("/")
-	public ResponseEntity<List<Cliente>> obterClientes() {
-		List<Cliente> clientes = repositorio.findAll();
-		if (clientes.isEmpty()) {
-			ResponseEntity<List<Cliente>> resposta = new ResponseEntity<>(HttpStatus.NOT_FOUND);
-			return resposta;
-		} else {
-			adicionadorLink.adicionarLink(clientes);
-			ResponseEntity<List<Cliente>> resposta = new ResponseEntity<>(clientes, HttpStatus.FOUND);
-			return resposta;
-		}
-	}
-
-	@PostMapping("/cadastro")
-	public ResponseEntity<?> cadastrarCliente(@RequestBody Cliente cliente) {
-		HttpStatus status = HttpStatus.CONFLICT;
-		if (cliente.getId() == null) {
-			repositorio.save(cliente);
-			status = HttpStatus.CREATED;
-			return new ResponseEntity<>(status);
-		}
-		return new ResponseEntity<>(status);
-
-	}
-
 	@PutMapping("/atualizar")
 	public ResponseEntity<?> atualizarCliente(@RequestBody Cliente atualizacao) {
 		HttpStatus status = HttpStatus.CONFLICT;
@@ -81,6 +61,24 @@ public class ClienteControle {
 		} else {
 			status = HttpStatus.BAD_REQUEST;
 		}
+		return new ResponseEntity<>(status);
+	}
+
+	@PostMapping("/veiculo/cadastrar/{razaoSocial}/{cpfCliente}")
+	public ResponseEntity<?> criarVeiculo(
+			@RequestBody List<Veiculo> veiculos,
+			@PathVariable String razaoSocial,
+			@PathVariable String cpfCliente) {
+
+		HttpStatus status = HttpStatus.CONFLICT;
+
+		try {
+			servicoCliente.cadastrarVeiculo(veiculos, cpfCliente, razaoSocial);
+			status = HttpStatus.OK;
+		} catch (Exception e) {
+			status = HttpStatus.BAD_REQUEST;
+		}
+
 		return new ResponseEntity<>(status);
 	}
 

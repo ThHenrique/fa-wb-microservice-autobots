@@ -30,11 +30,11 @@ public class AdicionadorLinkCliente implements AdicionadorLink<Cliente> {
 
 	@Override
 	public void adicionarLink(Cliente objeto) {
-		Link linkProprio = WebMvcLinkBuilder
-				.linkTo(WebMvcLinkBuilder
-						.methodOn(ClienteControle.class)
-						.obterClientes())
-				.withRel("clientes");
+		// Link linkProprio = WebMvcLinkBuilder
+		// .linkTo(WebMvcLinkBuilder
+		// .methodOn(ClienteControle.class)
+		// .obterClientes())
+		// .withRel("clientes");
 
 		Link linkTelefone = WebMvcLinkBuilder
 				.linkTo(WebMvcLinkBuilder
@@ -48,7 +48,7 @@ public class AdicionadorLinkCliente implements AdicionadorLink<Cliente> {
 						.obterEndereco(objeto.getEndereco().getId()))
 				.withRel("endereco");
 
-		objeto.add(linkProprio);
+		// objeto.add(linkProprio);
 		objeto.add(linkTelefone);
 		objeto.add(linkEndereco);
 	}
