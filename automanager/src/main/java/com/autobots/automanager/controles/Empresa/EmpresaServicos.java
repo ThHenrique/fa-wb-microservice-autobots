@@ -11,19 +11,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.autobots.automanager.entidades.Empresa;
 import com.autobots.automanager.entidades.Servico;
-import com.autobots.automanager.servico.EmpresaServico;
+import com.autobots.automanager.servico.ServicoEmpServico;
 
 @RestController
 @RequestMapping("/empresa/servicos")
 public class EmpresaServicos {
 
   @Autowired
-  public EmpresaServico servicoEmpresa;
+  public ServicoEmpServico servicoEmpServico;
 
   @PostMapping("/criar/{razaoSocial}")
   public ResponseEntity<?> criarServico(@RequestBody Servico servico, @PathVariable String razaoSocial) {
     try {
-      Empresa empresaAtualizada = servicoEmpresa.criarServico(servico, razaoSocial);
+      Empresa empresaAtualizada = servicoEmpServico.criarServico(servico, razaoSocial);
 
       return new ResponseEntity<>(empresaAtualizada.getServicos(), HttpStatus.CREATED);
     } catch (Exception e) {

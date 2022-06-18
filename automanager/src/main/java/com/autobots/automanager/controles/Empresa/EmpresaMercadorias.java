@@ -10,19 +10,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.autobots.automanager.controles.dtos.CriarMercadoriaDTO;
 import com.autobots.automanager.entidades.Empresa;
-import com.autobots.automanager.servico.EmpresaServico;
+import com.autobots.automanager.servico.MercadoriaServico;
 
 @RestController
 @RequestMapping("/empresa/mercadorias")
 public class EmpresaMercadorias {
 
   @Autowired
-  public EmpresaServico servicoEmpresa;
+  public MercadoriaServico servicoMercadoria;
 
   @PostMapping("/criar")
   public ResponseEntity<?> cadastrarMercadoria(@RequestBody CriarMercadoriaDTO mercadoria) {
     try {
-      Empresa novaMercadoria = servicoEmpresa.criarMercadoria(mercadoria);
+      Empresa novaMercadoria = servicoMercadoria.criarMercadoria(mercadoria);
 
       return new ResponseEntity<>(novaMercadoria.getMercadorias(), HttpStatus.CREATED);
     } catch (Exception e) {

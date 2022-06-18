@@ -7,9 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.autobots.automanager.controles.dtos.CriarEmpresaDTO;
-import com.autobots.automanager.controles.dtos.CriarMercadoriaDTO;
 import com.autobots.automanager.entidades.Empresa;
-import com.autobots.automanager.entidades.Servico;
 import com.autobots.automanager.repositorios.EmpresaRepositorio;
 
 @Service
@@ -39,31 +37,13 @@ public class EmpresaServico {
     return empresa.get();
   }
 
-  public Empresa criarMercadoria(CriarMercadoriaDTO mercadoriaDTO) {
-    Empresa empresa = encontrarEmpresa(mercadoriaDTO.getRazaoSocial());
+  public Empresa encontrarEmpresa(Long idEmpresa) {
+    Optional<Empresa> empresa = repositorioEmpresa.findById(idEmpresa);
 
-    if (empresa == null) {
-      new Exception("Não foi possível encontrar empresa, tente novamente");
+    if (empresa.isEmpty()) {
+      return null;
     }
-
-    mercadoriaDTO.mercadoria.setCadastro(new Date());
-    mercadoriaDTO.mercadoria.setFabricao(new Date(mercadoriaDTO.dataFabricacaoEmTexto));
-    mercadoriaDTO.mercadoria.setValidade(new Date(mercadoriaDTO.dataValidadeEmTexto));
-
-    empresa.getMercadorias().add(mercadoriaDTO.mercadoria);
-
-    return repositorioEmpresa.save(empresa);
+    return empresa.get();
   }
 
-  public Empresa criarServico(Servico servico, String razaoSocial) {
-    Empresa empresa = encontrarEmpresa(razaoSocial);
-
-    if (empresa == null) {
-      new Exception("Não foi possível encontrar empresa, tente novamente");
-    }
-
-    empresa.getServicos().add(servico);
-
-    return repositorioEmpresa.save(empresa);
-  }
 }

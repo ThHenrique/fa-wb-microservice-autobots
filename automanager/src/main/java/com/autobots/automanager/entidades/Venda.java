@@ -27,8 +27,6 @@ public class Venda {
 	private Long id;
 	@Column(nullable = false)
 	private Date cadastro;
-	@Column(nullable = false, unique = true)
-	private String identificacao;
 	@ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
 	private Usuario cliente;
 	@ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })

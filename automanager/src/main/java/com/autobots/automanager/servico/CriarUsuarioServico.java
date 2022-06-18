@@ -10,12 +10,16 @@ import com.autobots.automanager.controles.dtos.CriarUsuarioDTO;
 import com.autobots.automanager.entidades.Empresa;
 import com.autobots.automanager.enumeracoes.PerfilUsuario;
 import com.autobots.automanager.repositorios.EmpresaRepositorio;
+import com.autobots.automanager.repositorios.UsuarioRepositorio;
 
 @Service
 public class CriarUsuarioServico {
 
   @Autowired
   private EmpresaRepositorio repositorioEmpresa;
+
+  @Autowired
+  private UsuarioRepositorio repositorioUsuario;
 
   @Autowired
   private EmpresaServico servicoEmpresa;
@@ -50,6 +54,7 @@ public class CriarUsuarioServico {
 
     CriarUsuarioDTO novoUsuario = criarUsuario(funcionarioDTO, PerfilUsuario.FUNCIONARIO);
 
+    repositorioUsuario.save(novoUsuario.getUsuario());
     empresa.getUsuarios().add(novoUsuario.getUsuario());
 
     return repositorioEmpresa.save(empresa);
@@ -68,6 +73,7 @@ public class CriarUsuarioServico {
       novoUsuario.getUsuario().getMercadorias().add(novaMercadoria);
     });
 
+    repositorioUsuario.save(novoUsuario.getUsuario());
     empresa.getUsuarios().add(novoUsuario.getUsuario());
 
     return repositorioEmpresa.save(empresa);
@@ -78,6 +84,7 @@ public class CriarUsuarioServico {
 
     CriarUsuarioDTO novoUsuario = criarUsuario(clienteDTO, PerfilUsuario.CLIENTE);
 
+    repositorioUsuario.save(novoUsuario.getUsuario());
     empresa.getUsuarios().add(novoUsuario.getUsuario());
 
     return repositorioEmpresa.save(empresa);
