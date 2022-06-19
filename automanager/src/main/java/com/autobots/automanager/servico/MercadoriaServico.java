@@ -81,16 +81,17 @@ public class MercadoriaServico {
       new Exception("Não foi possível encontrar empresa, tente novamente");
     }
 
-    Set<Mercadoria> listaMercadoria = empresa.getMercadorias();
+    Set<Mercadoria> mercadorias = empresa.getMercadorias();
 
-    Mercadoria mercadoriaEncontrada = null;
-    for (Mercadoria mercadoriaIterada : listaMercadoria) {
+    Mercadoria mercadoria = null;
+    for (Mercadoria mercadoriaIterada : mercadorias) {
       if (mercadoriaIterada.getId() == idMercadoria) {
-        mercadoriaEncontrada = mercadoriaIterada;
+        mercadoria = mercadoriaIterada;
       }
     }
 
-    listaMercadoria.remove(mercadoriaEncontrada);
+    mercadorias.remove(mercadoria);
+    repositorioMercadoria.deleteById(mercadoria.getId());
     repositorioEmpresa.save(empresa);
   }
 
@@ -101,16 +102,17 @@ public class MercadoriaServico {
       new Exception("Não foi possível encontrar fornecedor, tente novamente");
     }
 
-    Set<Mercadoria> listaMercadoria = usuario.getMercadorias();
+    Set<Mercadoria> mercadorias = usuario.getMercadorias();
 
-    Mercadoria mercadoriaEncontrada = null;
-    for (Mercadoria mercadoriaIterada : listaMercadoria) {
+    Mercadoria mercadoria = null;
+    for (Mercadoria mercadoriaIterada : mercadorias) {
       if (mercadoriaIterada.getId() == idMercadoria) {
-        mercadoriaEncontrada = mercadoriaIterada;
+        mercadoria = mercadoriaIterada;
       }
     }
 
-    listaMercadoria.remove(mercadoriaEncontrada);
+    mercadorias.remove(mercadoria);
+    repositorioMercadoria.deleteById(mercadoria.getId());
     repositorioUsuario.save(usuario);
   }
 }

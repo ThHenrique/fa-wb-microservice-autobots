@@ -29,7 +29,7 @@ public class UsuarioServico {
     Optional<Usuario> usuario = repositorioUsuario.findById(id);
 
     if (usuario.isEmpty()) {
-      new Exception("Não foi possível encontrar o Usuario.");
+      return null;
     }
 
     return usuario.get();
