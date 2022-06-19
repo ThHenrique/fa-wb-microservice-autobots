@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.autobots.automanager.controles.dtos.CriarEmpresaDTO;
 import com.autobots.automanager.entidades.Empresa;
+import com.autobots.automanager.modelos.empresa.AtualizadorEmpresa;
 import com.autobots.automanager.repositorios.EmpresaRepositorio;
 
 @Service
@@ -46,4 +47,26 @@ public class EmpresaServico {
     return empresa.get();
   }
 
+  public void atualizarEmpresa(Empresa empresaAtualizada) {
+    Empresa empresa = encontrarEmpresa(empresaAtualizada.getId());
+
+    if (empresa == null) {
+      new Exception("Não foi possível localizar essa empresa");
+    }
+
+    AtualizadorEmpresa atualizador = new AtualizadorEmpresa();
+    atualizador.atualizar(empresa, empresaAtualizada);
+
+    repositorioEmpresa.save(empresa);
+  }
+
+  public void excluirEmpresa(Long id) {
+    Empresa empresa = encontrarEmpresa(id);
+
+    if (empresa == null) {
+      new Exception("Não foi possível localizar essa empresa");
+    }
+
+    repositorioEmpresa.deleteById(empresa.getId());
+  }
 }
