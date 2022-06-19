@@ -1,8 +1,7 @@
 package com.autobots.automanager.entidades;
 
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -31,10 +30,10 @@ public class Venda {
 	private Usuario cliente;
 	@ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
 	private Usuario funcionario;
-	@OneToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
-	private Set<Mercadoria> mercadorias = new HashSet<>();
-	@OneToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
-	private Set<Servico> servicos = new HashSet<>();
+	@OneToMany(fetch = FetchType.EAGER)
+	private List<Mercadoria> mercadorias;
+	@OneToMany(fetch = FetchType.EAGER)
+	private List<Servico> servicos;
 	@OneToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
 	private Veiculo veiculo;
 }

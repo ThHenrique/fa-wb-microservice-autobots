@@ -61,8 +61,9 @@ public class VendaServico {
     venda.setVeiculo(veiculo);
     venda.setCadastro(new Date());
 
-    // empresa.getVendas().add(venda);
+    veiculo.getVendas().add(venda);
+    empresa.getVendas().add(venda);
 
-    repositorioVenda.save(venda);
+    repositorioEmpresa.save(empresa);
   }
 }
