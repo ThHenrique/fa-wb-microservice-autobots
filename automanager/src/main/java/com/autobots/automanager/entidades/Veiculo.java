@@ -36,5 +36,6 @@ public class Veiculo {
 	@ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
 	private Usuario proprietario;
 	@OneToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
+	@JsonIgnore
 	private Set<Venda> vendas = new HashSet<>();
 }

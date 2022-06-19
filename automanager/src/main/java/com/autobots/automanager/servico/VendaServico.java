@@ -1,6 +1,8 @@
 package com.autobots.automanager.servico;
 
 import java.util.Date;
+import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -65,5 +67,25 @@ public class VendaServico {
     empresa.getVendas().add(venda);
 
     repositorioEmpresa.save(empresa);
+  }
+
+  public Venda encontrarVenda(Long id) {
+    Optional<Venda> venda = repositorioVenda.findById(id);
+
+    if (venda.isEmpty()) {
+      return null;
+    }
+
+    return venda.get();
+  }
+
+  public Set<Venda> encontrarVendaEmpresa(Long idEmpresa) {
+    Empresa empresa = servicoEmpresa.encontrarEmpresa(idEmpresa);
+
+    if (empresa == null) {
+      new Exception("Não foi possível encontrar empresa, tente novamente");
+    }
+
+    return empresa.getVendas();
   }
 }

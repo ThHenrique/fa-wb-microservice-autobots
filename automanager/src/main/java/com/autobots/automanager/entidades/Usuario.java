@@ -17,6 +17,7 @@ import javax.persistence.OneToOne;
 import org.springframework.hateoas.RepresentationModel;
 
 import com.autobots.automanager.enumeracoes.PerfilUsuario;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -47,6 +48,7 @@ public class Usuario extends RepresentationModel<Usuario> {
 	@OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.EAGER)
 	private Set<Mercadoria> mercadorias = new HashSet<>();
 	@OneToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@JsonIgnore
 	private Set<Venda> vendas = new HashSet<>();
 	@OneToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	private Set<Veiculo> veiculos = new HashSet<>();
