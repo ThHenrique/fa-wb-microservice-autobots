@@ -7,8 +7,10 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.autobots.automanager.entidades.Empresa;
 import com.autobots.automanager.entidades.Usuario;
 import com.autobots.automanager.entidades.Veiculo;
+import com.autobots.automanager.modelos.usuario.AtualizadorUsuario;
 import com.autobots.automanager.repositorios.EmpresaRepositorio;
 import com.autobots.automanager.repositorios.UsuarioRepositorio;
 import com.autobots.automanager.repositorios.VeiculoRepositorio;
@@ -24,6 +26,9 @@ public class UsuarioServico {
 
   @Autowired
   VeiculoRepositorio repositorioVeiculo;
+
+  @Autowired
+  EmpresaServico servicoEmpresa;
 
   public Usuario encontrarUsuario(Long id) {
     Optional<Usuario> usuario = repositorioUsuario.findById(id);
@@ -58,5 +63,40 @@ public class UsuarioServico {
     }
 
     return veiculoEncontrado;
+  }
+
+  public void atualizarUsuario(Usuario usuarioAtualizado) {
+    Usuario usuario = encontrarUsuario(usuarioAtualizado.getId());
+
+    if (usuario == null) {
+      new Exception("Não foi possível localizar essa usuario");
+    }
+
+    AtualizadorUsuario atualizador = new AtualizadorUsuario();
+    atualizador.atualizar(usuario, usuarioAtualizado);
+
+    repositorioUsuario.save(usuario);
+  }
+
+  public void excluirUsuario(Long idEmpresa, Long idUsuario) {
+    Empresa empresa = servicoEmpresa.encontrarEmpresa(idEmpresa);
+
+    if (empresa == null) {
+      new Exception("Não foi possível encontrar empresa, tente novamente");
+    }
+
+    Set<Usuario> usuarios = empresa.getUsuarios();
+
+    Usuario usuario = null;
+    for (Usuario usuarioIterado : usuarios) {
+      if (usuarioIterado.getId() == idUsuario) {
+        usuario = usuarioIterado;
+      }
+    }
+
+    usuarios.remove(usuario);
+    repositorioUsuario.deleteById(usuario.getId());
+    repositorioEmpresa.save(empresa);
+
   }
 }
