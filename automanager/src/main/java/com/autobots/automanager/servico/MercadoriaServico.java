@@ -10,8 +10,10 @@ import org.springframework.stereotype.Service;
 import com.autobots.automanager.controles.dtos.CriarMercadoriaDTO;
 import com.autobots.automanager.entidades.Empresa;
 import com.autobots.automanager.entidades.Mercadoria;
+import com.autobots.automanager.entidades.Usuario;
 import com.autobots.automanager.repositorios.EmpresaRepositorio;
 import com.autobots.automanager.repositorios.MercadoriaRepositorio;
+import com.autobots.automanager.repositorios.UsuarioRepositorio;
 
 @Service
 public class MercadoriaServico {
@@ -20,13 +22,19 @@ public class MercadoriaServico {
   EmpresaRepositorio repositorioEmpresa;
 
   @Autowired
+  UsuarioRepositorio repositorioUsuario;
+
+  @Autowired
   MercadoriaRepositorio repositorioMercadoria;
 
   @Autowired
   EmpresaServico servicoEmpresa;
 
-  public Empresa criarMercadoria(CriarMercadoriaDTO mercadoriaDTO) {
-    Empresa empresa = servicoEmpresa.encontrarEmpresa(mercadoriaDTO.getRazaoSocial());
+  @Autowired
+  UsuarioServico servicoUsuario;
+
+  public void criarMercadoria(CriarMercadoriaDTO mercadoriaDTO, String razaoSocial) {
+    Empresa empresa = servicoEmpresa.encontrarEmpresa(razaoSocial);
 
     if (empresa == null) {
       new Exception("Não foi possível encontrar empresa, tente novamente");
@@ -38,7 +46,23 @@ public class MercadoriaServico {
 
     empresa.getMercadorias().add(mercadoriaDTO.mercadoria);
 
-    return repositorioEmpresa.save(empresa);
+    repositorioEmpresa.save(empresa);
+  }
+
+  public void criarMercadoria(CriarMercadoriaDTO mercadoriaDTO, Long fornecedorId) {
+    Usuario usuario = servicoUsuario.encontrarUsuario(fornecedorId);
+
+    if (usuario == null) {
+      new Exception("Não foi possível encontrar fornecedor, tente novamente");
+    }
+
+    mercadoriaDTO.mercadoria.setCadastro(new Date());
+    mercadoriaDTO.mercadoria.setFabricao(new Date(mercadoriaDTO.dataFabricacaoEmTexto));
+    mercadoriaDTO.mercadoria.setValidade(new Date(mercadoriaDTO.dataValidadeEmTexto));
+
+    usuario.getMercadorias().add(mercadoriaDTO.mercadoria);
+
+    repositorioUsuario.save(usuario);
   }
 
   public Mercadoria encontrarMercadoria(Long id) {
@@ -48,5 +72,45 @@ public class MercadoriaServico {
       return null;
     }
     return mercadoria.get();
+  }
+
+  public void excluirMercadoria(String razaoSocial, Long idMercadoria) {
+    Empresa empresa = servicoEmpresa.encontrarEmpresa(razaoSocial);
+
+    if (empresa == null) {
+      new Exception("Não foi possível encontrar empresa, tente novamente");
+    }
+
+    Set<Mercadoria> listaMercadoria = empresa.getMercadorias();
+
+    Mercadoria mercadoriaEncontrada = null;
+    for (Mercadoria mercadoriaIterada : listaMercadoria) {
+      if (mercadoriaIterada.getId() == idMercadoria) {
+        mercadoriaEncontrada = mercadoriaIterada;
+      }
+    }
+
+    listaMercadoria.remove(mercadoriaEncontrada);
+    repositorioEmpresa.save(empresa);
+  }
+
+  public void excluirMercadoria(Long idFornecedor, Long idMercadoria) {
+    Usuario usuario = servicoUsuario.encontrarUsuario(idFornecedor);
+
+    if (usuario == null) {
+      new Exception("Não foi possível encontrar fornecedor, tente novamente");
+    }
+
+    Set<Mercadoria> listaMercadoria = usuario.getMercadorias();
+
+    Mercadoria mercadoriaEncontrada = null;
+    for (Mercadoria mercadoriaIterada : listaMercadoria) {
+      if (mercadoriaIterada.getId() == idMercadoria) {
+        mercadoriaEncontrada = mercadoriaIterada;
+      }
+    }
+
+    listaMercadoria.remove(mercadoriaEncontrada);
+    repositorioUsuario.save(usuario);
   }
 }

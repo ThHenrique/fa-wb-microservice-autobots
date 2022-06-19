@@ -7,6 +7,7 @@ import lombok.Data;
 @Data
 public class CriarMercadoriaDTO {
   public String razaoSocial;
+  public Long usuarioId;
   public Mercadoria mercadoria;
 
   public String dataValidadeEmTexto;
