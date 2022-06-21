@@ -42,3 +42,34 @@ Implementar os níveis de maturidade RMM
   </a>  
   
 </p>
+
+
+<br>
+<br>
+
+## Instalação e configuração do Insomnia
+<details>
+  <summary>Insomnia</summary>
+
+  Siga a documentação oficial do insomnia caso você não tenha instalado:_
+
+  [Installation - insomnia](https://insomnia.rest/download)
+
+  Caso você não conheça esse software veja o link a seguir para aprender:_
+
+  [Get Started - insomnia](https://docs.insomnia.rest/insomnia/send-your-first-request)
+
+  Você pode baixar e importar no insomnia a configuração de ambiente que deixei na pasta raiz do projeto. Caso tenha alguma dúvida de como importar essa configuração, leia o link abaixo.
+
+  [Import and Export Data - insomnia](https://docs.insomnia.rest/insomnia/import-export-data)
+
+
+  **/Insomnia_2022-06-21-ThiagoHenrique**
+
+  ---
+
+  Caso tenha algum problema no processo, entre em contato.
+</details>
+
+
+<br/>
