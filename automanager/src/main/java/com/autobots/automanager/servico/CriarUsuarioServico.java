@@ -3,6 +3,7 @@ package com.autobots.automanager.servico;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.autobots.automanager.controles.dtos.CriarFornecedorDTO;
@@ -25,8 +26,11 @@ public class CriarUsuarioServico {
   private EmpresaServico servicoEmpresa;
 
   public CriarUsuarioDTO criarUsuario(CriarUsuarioDTO usuarioDTO, PerfilUsuario perfilUsuario) {
+    BCryptPasswordEncoder toCriptografy = new BCryptPasswordEncoder();
+    String senhaEncriptografa = toCriptografy.encode(usuarioDTO.getUsuario().getSenha());
+
+    usuarioDTO.getUsuario().setSenha(senhaEncriptografa);
     usuarioDTO.getUsuario().getPerfis().add(perfilUsuario);
-    usuarioDTO.getUsuario().getEmails().add(usuarioDTO.getEmail());
 
     usuarioDTO.getUsuario().setEndereco(usuarioDTO.getEndereco());
 
@@ -40,16 +44,10 @@ public class CriarUsuarioServico {
       usuarioDTO.getUsuario().getDocumentos().add(novoDocumento);
     });
 
-    usuarioDTO.getCredencial().setCriacao(new Date());
-    usuarioDTO.getCredencial().setUltimoAcesso(new Date());
-    usuarioDTO.getCredencial().setInativo(false);
-
-    usuarioDTO.getUsuario().getCredenciais().add(usuarioDTO.getCredencial());
-
     return usuarioDTO;
   }
 
-  public Empresa criarFuncionario(CriarUsuarioDTO funcionarioDTO) {
+  public void criarFuncionario(CriarUsuarioDTO funcionarioDTO) {
     Empresa empresa = encontrarEmpresa(funcionarioDTO.getRazaoSocial());
 
     CriarUsuarioDTO novoUsuario = criarUsuario(funcionarioDTO, PerfilUsuario.FUNCIONARIO);
@@ -57,10 +55,10 @@ public class CriarUsuarioServico {
     repositorioUsuario.save(novoUsuario.getUsuario());
     empresa.getUsuarios().add(novoUsuario.getUsuario());
 
-    return repositorioEmpresa.save(empresa);
+    repositorioEmpresa.save(empresa);
   }
 
-  public Empresa criarFornecedor(CriarFornecedorDTO fornecedorDTO) {
+  public void criarFornecedor(CriarFornecedorDTO fornecedorDTO) {
     Empresa empresa = encontrarEmpresa(fornecedorDTO.getRazaoSocial());
 
     CriarFornecedorDTO novoUsuario = (CriarFornecedorDTO) criarUsuario(fornecedorDTO, PerfilUsuario.FORNECEDOR);
@@ -76,10 +74,10 @@ public class CriarUsuarioServico {
     repositorioUsuario.save(novoUsuario.getUsuario());
     empresa.getUsuarios().add(novoUsuario.getUsuario());
 
-    return repositorioEmpresa.save(empresa);
+    repositorioEmpresa.save(empresa);
   }
 
-  public Empresa criarCliente(CriarUsuarioDTO clienteDTO) {
+  public void criarCliente(CriarUsuarioDTO clienteDTO) {
     Empresa empresa = encontrarEmpresa(clienteDTO.getRazaoSocial());
 
     CriarUsuarioDTO novoUsuario = criarUsuario(clienteDTO, PerfilUsuario.CLIENTE);
@@ -87,7 +85,7 @@ public class CriarUsuarioServico {
     repositorioUsuario.save(novoUsuario.getUsuario());
     empresa.getUsuarios().add(novoUsuario.getUsuario());
 
-    return repositorioEmpresa.save(empresa);
+    repositorioEmpresa.save(empresa);
   }
 
   public Empresa encontrarEmpresa(String razaoSocial) {

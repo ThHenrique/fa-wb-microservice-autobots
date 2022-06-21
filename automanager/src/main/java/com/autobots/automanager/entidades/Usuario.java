@@ -41,10 +41,6 @@ public class Usuario extends RepresentationModel<Usuario> {
 	private Endereco endereco;
 	@OneToMany(orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<Documento> documentos = new HashSet<>();
-	@OneToMany(orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private Set<Email> emails = new HashSet<>();
-	@OneToMany(orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private Set<Credencial> credenciais = new HashSet<>();
 	@OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.EAGER)
 	private Set<Mercadoria> mercadorias = new HashSet<>();
 	@OneToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
@@ -53,4 +49,8 @@ public class Usuario extends RepresentationModel<Usuario> {
 	@OneToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	private Set<Veiculo> veiculos = new HashSet<>();
 
+	@Column(nullable = false)
+	private String email;
+	@Column(nullable = false)
+	private String senha;
 }
