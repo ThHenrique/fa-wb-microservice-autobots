@@ -47,10 +47,32 @@ public class CriarUsuarioServico {
     return usuarioDTO;
   }
 
+  public void criarAdministrador(CriarUsuarioDTO adminDTO) {
+    Empresa empresa = encontrarEmpresa(adminDTO.getRazaoSocial());
+
+    CriarUsuarioDTO novoUsuario = criarUsuario(adminDTO, PerfilUsuario.ADMINISTRADOR);
+
+    repositorioUsuario.save(novoUsuario.getUsuario());
+    empresa.getUsuarios().add(novoUsuario.getUsuario());
+
+    repositorioEmpresa.save(empresa);
+  }
+
+  public void criarGerente(CriarUsuarioDTO adminDTO) {
+    Empresa empresa = encontrarEmpresa(adminDTO.getRazaoSocial());
+
+    CriarUsuarioDTO novoUsuario = criarUsuario(adminDTO, PerfilUsuario.GERENTE);
+
+    repositorioUsuario.save(novoUsuario.getUsuario());
+    empresa.getUsuarios().add(novoUsuario.getUsuario());
+
+    repositorioEmpresa.save(empresa);
+  }
+
   public void criarFuncionario(CriarUsuarioDTO funcionarioDTO) {
     Empresa empresa = encontrarEmpresa(funcionarioDTO.getRazaoSocial());
 
-    CriarUsuarioDTO novoUsuario = criarUsuario(funcionarioDTO, PerfilUsuario.FUNCIONARIO);
+    CriarUsuarioDTO novoUsuario = criarUsuario(funcionarioDTO, PerfilUsuario.VENDEDOR);
 
     repositorioUsuario.save(novoUsuario.getUsuario());
     empresa.getUsuarios().add(novoUsuario.getUsuario());

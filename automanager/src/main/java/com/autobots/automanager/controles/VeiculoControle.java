@@ -7,6 +7,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,6 +36,7 @@ public class VeiculoControle {
   private UsuarioRepositorio repositorioUsuario;
 
   @PostMapping("/cadastrar/{idUsuario}")
+  @PreAuthorize("hasRole('ADMINISTRADOR') or hasRole('GERENTE') or hasRole('VENDEDOR') or hasRole('CLIENTE')")
   public ResponseEntity<?> criarVeiculo(@RequestBody List<Veiculo> veiculos, @PathVariable Long idUsuario) {
     try {
       servicoUsuario.cadastrarVeiculo(veiculos, idUsuario);
@@ -45,6 +47,7 @@ public class VeiculoControle {
   }
 
   @GetMapping("/")
+  @PreAuthorize("hasRole('ADMINISTRADOR') or hasRole('GERENTE') or hasRole('VENDEDOR') or hasRole('CLIENTE')")
   public ResponseEntity<List<Veiculo>> obterVeiculos() {
     List<Veiculo> veiculos = repositorioVeiculo.findAll();
 
@@ -56,6 +59,7 @@ public class VeiculoControle {
   }
 
   @GetMapping("/{id}")
+  @PreAuthorize("hasRole('ADMINISTRADOR') or hasRole('GERENTE') or hasRole('VENDEDOR') or hasRole('CLIENTE')")
   public ResponseEntity<Veiculo> obterVeiculo(@PathVariable Long id) {
     Optional<Veiculo> veiculo = repositorioVeiculo.findById(id);
 
@@ -67,6 +71,7 @@ public class VeiculoControle {
   }
 
   @GetMapping("/usuario/{id}")
+  @PreAuthorize("hasRole('ADMINISTRADOR') or hasRole('GERENTE') or hasRole('VENDEDOR') or hasRole('CLIENTE')")
   public ResponseEntity<Set<Veiculo>> obterVeiculosUsuario(@PathVariable Long id) {
     Usuario usuario = servicoUsuario.encontrarUsuario(id);
 
@@ -78,6 +83,7 @@ public class VeiculoControle {
   }
 
   @DeleteMapping("/excluir/{idUsuario}/{placa}")
+  @PreAuthorize("hasRole('ADMINISTRADOR') or hasRole('GERENTE') or hasRole('VENDEDOR') or hasRole('CLIENTE')")
   public ResponseEntity<?> excluirVeiculo(@PathVariable Long idUsuario, @PathVariable String placa) {
     Usuario usuario = servicoUsuario.encontrarUsuario(idUsuario);
 

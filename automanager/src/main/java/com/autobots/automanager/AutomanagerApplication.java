@@ -57,126 +57,39 @@ public class AutomanagerApplication implements CommandLineRunner {
 
 		empresa.getTelefones().add(telefoneEmpresa);
 
-		Usuario funcionario = new Usuario();
-		funcionario.setNome("Funcionario");
-		funcionario.setNomeSocial("Funcionario");
-		funcionario.getPerfis().add(PerfilUsuario.FUNCIONARIO);
+		// ATV - 5
+		Usuario admin = new Usuario();
+		admin.setNome("Admin");
+		admin.setNomeSocial("admin");
+		admin.getPerfis().add(PerfilUsuario.ADMINISTRADOR);
 
-		funcionario.setEmail("funcionario@email.com");
-		funcionario.setSenha(senhaEncriptografa);
+		admin.setEmail("admin@email.com");
+		admin.setSenha(senhaEncriptografa);
 
-		Endereco enderecoFuncionario = new Endereco();
-		enderecoFuncionario.setEstado("São Paulo");
-		enderecoFuncionario.setCidade("São Paulo");
-		enderecoFuncionario.setBairro("Jardins");
-		enderecoFuncionario.setRua("Av. São Gabriel");
-		enderecoFuncionario.setNumero("00");
-		enderecoFuncionario.setCodigoPostal("01435-001");
+		Endereco enderecoAdmin = new Endereco();
+		enderecoAdmin.setEstado("São Paulo s");
+		enderecoAdmin.setCidade("São Paulo s");
+		enderecoAdmin.setBairro("Jardins s");
+		enderecoAdmin.setRua("Av. São Gabrielll");
+		enderecoAdmin.setNumero("0011");
+		enderecoAdmin.setCodigoPostal("01435-111");
 
-		funcionario.setEndereco(enderecoFuncionario);
+		admin.setEndereco(enderecoAdmin);
 
-		empresa.getUsuarios().add(funcionario);
+		empresa.getUsuarios().add(admin);
 
-		Telefone telefoneFuncionario = new Telefone();
-		telefoneFuncionario.setDdd("011");
-		telefoneFuncionario.setNumero("9854633728");
+		Telefone telefoneAdmin = new Telefone();
+		telefoneAdmin.setDdd("012");
+		telefoneAdmin.setNumero("9850033728");
 
-		funcionario.getTelefones().add(telefoneFuncionario);
+		admin.getTelefones().add(telefoneAdmin);
 
-		Documento cpf = new Documento();
-		cpf.setDataEmissao(new Date());
-		cpf.setNumero("856473819229");
-		cpf.setTipo(TipoDocumento.CPF);
+		Documento cpfAdmin = new Documento();
+		cpfAdmin.setDataEmissao(new Date());
+		cpfAdmin.setNumero("8564731222");
+		cpfAdmin.setTipo(TipoDocumento.CPF);
 
-		funcionario.getDocumentos().add(cpf);
-
-		Usuario fornecedor = new Usuario();
-		fornecedor.setNome("Componentes varejo de partes automotivas ltda");
-		fornecedor.setNomeSocial("Loja do carro, vendas de componentes automotivos");
-		fornecedor.getPerfis().add(PerfilUsuario.FORNECEDOR);
-
-		fornecedor.setEmail("fornecedor@email.com");
-		fornecedor.setSenha(senhaEncriptografa);
-
-		Documento cnpj = new Documento();
-		cnpj.setDataEmissao(new Date());
-		cnpj.setNumero("00014556000100");
-		cnpj.setTipo(TipoDocumento.CNPJ);
-
-		fornecedor.getDocumentos().add(cnpj);
-
-		Endereco enderecoFornecedor = new Endereco();
-		enderecoFornecedor.setEstado("Rio de Janeiro");
-		enderecoFornecedor.setCidade("Rio de Janeiro");
-		enderecoFornecedor.setBairro("Centro");
-		enderecoFornecedor.setRua("Av. República do chile");
-		enderecoFornecedor.setNumero("00");
-		enderecoFornecedor.setCodigoPostal("20031-170");
-
-		fornecedor.setEndereco(enderecoFornecedor);
-
-		Mercadoria rodaLigaLeve = new Mercadoria();
-		rodaLigaLeve.setCadastro(new Date());
-		rodaLigaLeve.setFabricao(new Date());
-		rodaLigaLeve.setNome("Roda de liga leva modelo toyota etios");
-		rodaLigaLeve.setValidade(new Date());
-		rodaLigaLeve.setQuantidade(30);
-		rodaLigaLeve.setValor(300.0);
-		rodaLigaLeve.setDescricao("Roda de liga leve original de fábrica da toyta para modelos do tipo hatch");
-
-		empresa.getMercadorias().add(rodaLigaLeve);
-
-		fornecedor.getMercadorias().add(rodaLigaLeve);
-
-		empresa.getUsuarios().add(fornecedor);
-
-		Usuario cliente = new Usuario();
-		cliente.setNome("Cliente");
-		cliente.setNomeSocial("Cliente");
-		cliente.getPerfis().add(PerfilUsuario.CLIENTE);
-
-		cliente.setEmail("cliente@email.com");
-		cliente.setSenha(senhaEncriptografa);
-
-		Documento cpfCliente = new Documento();
-		cpfCliente.setDataEmissao(new Date());
-		cpfCliente.setNumero("1258469853344");
-		cpfCliente.setTipo(TipoDocumento.CPF);
-
-		cliente.getDocumentos().add(cpfCliente);
-
-		Endereco enderecoCliente = new Endereco();
-		enderecoCliente.setEstado("São Paulo");
-		enderecoCliente.setCidade("São José dos Campossss");
-		enderecoCliente.setBairro("Centrosss");
-		enderecoCliente.setRua("Avv. Dr. Nelson D' Avila");
-		enderecoCliente.setNumero("001");
-		enderecoCliente.setCodigoPostal("12245-0720");
-
-		cliente.setEndereco(enderecoCliente);
-
-		Veiculo veiculo = new Veiculo();
-		veiculo.setPlaca("ABC-0000");
-		veiculo.setModelo("corolla-cross");
-		veiculo.setTipo(TipoVeiculo.SUV);
-		veiculo.setProprietario(cliente);
-
-		cliente.getVeiculos().add(veiculo);
-
-		empresa.getUsuarios().add(cliente);
-
-		Servico trocaRodas = new Servico();
-		trocaRodas.setDescricao("Troca das rodas do carro por novas");
-		trocaRodas.setNome("Troca de rodas");
-		trocaRodas.setValor(50);
-
-		Servico alinhamento = new Servico();
-		alinhamento.setDescricao("Alinhamento das rodas do carro");
-		alinhamento.setNome("Alinhamento de rodas");
-		alinhamento.setValor(50);
-
-		empresa.getServicos().add(trocaRodas);
-		empresa.getServicos().add(alinhamento);
+		admin.getDocumentos().add(cpfAdmin);
 
 		repositorioEmpresa.save(empresa);
 

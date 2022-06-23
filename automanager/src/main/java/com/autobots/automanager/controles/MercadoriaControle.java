@@ -5,6 +5,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,6 +24,7 @@ import com.autobots.automanager.servico.UsuarioServico;
 
 @RestController
 @RequestMapping("/mercadoria")
+@PreAuthorize("hasRole('ADMINISTRADOR') or hasRole('GERENTE') or hasRole('VENDEDOR') or hasRole('FORNECEDOR')")
 public class MercadoriaControle {
 
   @Autowired
@@ -35,6 +37,7 @@ public class MercadoriaControle {
   public UsuarioServico servicoUsuario;
 
   @PostMapping("/criar")
+  @PreAuthorize("hasRole('ADMINISTRADOR') or hasRole('GERENTE') or hasRole('FORNECEDOR')")
   public ResponseEntity<Mercadoria> cadastrarMercadoria(@RequestBody CriarMercadoriaDTO mercadoria) {
     try {
       if (mercadoria.getRazaoSocial() == null) {
@@ -49,6 +52,7 @@ public class MercadoriaControle {
     }
   }
 
+  @PreAuthorize("hasRole('ADMINISTRADOR') or hasRole('GERENTE') or hasRole('VENDEDOR')")
   @GetMapping("/{id}")
   public ResponseEntity<Mercadoria> obterMercadoria(@PathVariable Long id) {
     Mercadoria mercadoria = servicoMercadoria.encontrarMercadoria(id);
@@ -60,6 +64,7 @@ public class MercadoriaControle {
     return new ResponseEntity<Mercadoria>(mercadoria, HttpStatus.FOUND);
   }
 
+  @PreAuthorize("hasRole('ADMINISTRADOR') or hasRole('GERENTE') or hasRole('VENDEDOR')")
   @GetMapping("/empresa/{idEmpresa}")
   public ResponseEntity<Set<Mercadoria>> obterMercadorias(@PathVariable Long idEmpresa) {
     Empresa empresa = servicoEmpresa.encontrarEmpresa(idEmpresa);
@@ -71,6 +76,7 @@ public class MercadoriaControle {
     return new ResponseEntity<Set<Mercadoria>>(empresa.getMercadorias(), HttpStatus.FOUND);
   }
 
+  @PreAuthorize("hasRole('FORNECEDOR')")
   @GetMapping("/fornecedor/{idFornecedor}")
   public ResponseEntity<Set<Mercadoria>> obterMercadoriasPorFornecedor(@PathVariable Long idFornecedor) {
     Usuario usuario = servicoUsuario.encontrarUsuario(idFornecedor);
@@ -82,6 +88,7 @@ public class MercadoriaControle {
     return new ResponseEntity<Set<Mercadoria>>(usuario.getMercadorias(), HttpStatus.FOUND);
   }
 
+  @PreAuthorize("hasRole('ADMINISTRADOR') or hasRole('GERENTE')")
   @DeleteMapping("empresa/excluir/{razaoSocial}/{idMercadoria}")
   public ResponseEntity<Mercadoria> excluirMercadoriaEmpresa(
       @PathVariable String razaoSocial,
@@ -96,6 +103,7 @@ public class MercadoriaControle {
 
   }
 
+  @PreAuthorize("hasRole('FORNECEDOR')")
   @DeleteMapping("fornecedor/excluir/{idFornecedor}/{idMercadoria}")
   public ResponseEntity<Mercadoria> excluirMercadoriaFornecedor(
       @PathVariable Long idFornecedor,
