@@ -6,6 +6,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,6 +29,7 @@ public class VendaControle {
   private VendaRepositorio repositorioVenda;
 
   @PostMapping("/cadastrar/{idEmpresa}")
+  @PreAuthorize("hasRole('ADMINISTRADOR') or hasRole('GERENTE') or hasRole('VENDEDOR')")
   public ResponseEntity<Venda> criarVenda(@RequestBody Venda venda, @PathVariable Long idEmpresa) {
     try {
       servicoVenda.criarVenda(venda, idEmpresa);
@@ -39,6 +41,7 @@ public class VendaControle {
   }
 
   @GetMapping("/")
+  @PreAuthorize("hasRole('ADMINISTRADOR')")
   public ResponseEntity<List<Venda>> obterVendas() {
     List<Venda> vendas = repositorioVenda.findAll();
 
@@ -50,6 +53,7 @@ public class VendaControle {
   }
 
   @GetMapping("/{id}")
+  @PreAuthorize("hasRole('ADMINISTRADOR') or hasRole('GERENTE') or hasRole('VENDEDOR')")
   public ResponseEntity<Venda> obterVenda(@PathVariable Long id) {
     Venda venda = servicoVenda.encontrarVenda(id);
 
@@ -61,6 +65,7 @@ public class VendaControle {
   }
 
   @GetMapping("empresa/{idEmpresa}")
+  @PreAuthorize("hasRole('ADMINISTRADOR') or hasRole('GERENTE')")
   public ResponseEntity<Set<Venda>> obterVendasEmpresa(@PathVariable Long idEmpresa) {
     Set<Venda> vendas = servicoVenda.encontrarVendaEmpresa(idEmpresa);
 

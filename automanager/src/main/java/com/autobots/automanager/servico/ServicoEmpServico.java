@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import com.autobots.automanager.entidades.Empresa;
 import com.autobots.automanager.entidades.Servico;
-import com.autobots.automanager.entidades.Usuario;
 import com.autobots.automanager.repositorios.EmpresaRepositorio;
 import com.autobots.automanager.repositorios.ServicoRepositorio;
 
