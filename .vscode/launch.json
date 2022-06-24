@@ -2,6 +2,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "Launch ApiAutobotsApplication",
+      "request": "launch",
+      "mainClass": "com.example.apiautobots.ApiAutobotsApplication",
+      "projectName": "api-autobots"
+    },
+    {
+      "type": "java",
       "name": "Spring Boot-AutomanagerApplication<automanager>",
       "request": "launch",
       "cwd": "${workspaceFolder}",
