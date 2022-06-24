@@ -11,14 +11,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.autobots.automanager.entidades.Documento;
 import com.autobots.automanager.entidades.Empresa;
 import com.autobots.automanager.entidades.Endereco;
-import com.autobots.automanager.entidades.Mercadoria;
-import com.autobots.automanager.entidades.Servico;
 import com.autobots.automanager.entidades.Telefone;
 import com.autobots.automanager.entidades.Usuario;
-import com.autobots.automanager.entidades.Veiculo;
 import com.autobots.automanager.enumeracoes.PerfilUsuario;
 import com.autobots.automanager.enumeracoes.TipoDocumento;
-import com.autobots.automanager.enumeracoes.TipoVeiculo;
 import com.autobots.automanager.repositorios.EmpresaRepositorio;
 
 @SpringBootApplication
